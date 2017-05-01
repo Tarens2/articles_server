@@ -24,3 +24,4 @@ Route::get('auth/me','Api\AuthController@getAuthenticatedUser');
 
 Route::get('articles/{user_id}', 'ArticleController@getAllArticles');
 Route::post('articles','ArticleController@postArticles');
+

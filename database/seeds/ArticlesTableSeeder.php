@@ -11,10 +11,25 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = new Article();
-        $user->title = 'TITLE';
-        $user->text = 'text text text text text text text text';
-        $user->user_id = 1;
-        $user->save();
+        $article = new Article();
+        $article->title = 'TITLE';
+        $article->text = 'text text text text text text text text';
+
+
+        $article1 = new Article();
+        $article1->title = 'TITLE2';
+        $article1->text = 'texqwewqe';
+
+        $article2 = new Article();
+        $article2->title = 'TITLE3';
+        $article2->text = 'textwqewqe';
+
+        $articles = [
+            $article,
+            $article1,
+            $article2
+        ];
+
+        \App\User::find(1)->articles()->saveMany($articles);
     }
 }
