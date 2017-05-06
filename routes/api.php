@@ -22,6 +22,8 @@ Route::get('/user', function (Request $request) {
 Route::post('auth','Api\AuthController@authenticate');
 Route::get('auth/me','Api\AuthController@getAuthenticatedUser');
 
-Route::get('articles/{user_id}', 'ArticleController@getAllArticles');
-Route::post('articles','ArticleController@postArticles');
+Route::get('articles/{user_id}', 'Api\ArticleController@getUserArticles');
+Route::get('articles', 'Api\ArticleController@getAllArticles');
+Route::post('articles','ApiApi\ArticleController@postArticles');
 
+Route::post('like/{likeable_id}', 'Api\LikesController@setLike');
