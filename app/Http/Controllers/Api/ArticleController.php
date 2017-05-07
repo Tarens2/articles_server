@@ -3,18 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 
 use App\Article;
-
-use JWTAuth;
-use Response;
-use App\Http\Controllers\Api\AuthController;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class ArticleController extends Controller
 {
@@ -38,6 +29,8 @@ class ArticleController extends Controller
         $response = $auth['error'];
         $user = $auth['user'];
 
+        dump($user->articles->load('comments','comments'));
+
         if ($user) {
             return response()->json($user->articles);
         } else {
@@ -56,7 +49,7 @@ class ArticleController extends Controller
             $article = new Article;
             $article->title = $request->get('title');
             $article->text = $request->get('text');
-            $article->user_id = $user->id;
+            $article->user()->save($user);
             $article->save();
             return response($article, 200);
         } else {

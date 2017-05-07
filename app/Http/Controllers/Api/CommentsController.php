@@ -20,5 +20,6 @@ class CommentsController extends Controller
             'user_id' => $user->id
         ]);
         $comment->save();
+        return response()->json($comment, 200);
     }
 }
