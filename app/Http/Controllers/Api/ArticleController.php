@@ -9,8 +9,12 @@ use Illuminate\Support\Facades\Input;
 
 use App\Article;
 
+use JWTAuth;
 use Response;
 use App\Http\Controllers\Api\AuthController;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class ArticleController extends Controller
 {
@@ -18,25 +22,45 @@ class ArticleController extends Controller
 
     public function getAllArticles()
     {
-        $user = AuthController::checkAuth();
-        return response()->json($user->articles);
+        $auth = AuthController::checkAuth();
+        $response = $auth['error'];
+        $user = $auth['user'];
+        if ($user) {
+            return response()->json(Article::all());
+        } else {
+            return $response;
+        }
     }
 
-    public function getUserArticles($user_id)
+    public function getUserArticles()
     {
-        $user = AuthController::checkAuth();
-        return response()->json(Article::where('user_id', '=', $user_id)->get());
+        $auth = AuthController::checkAuth();
+        $response = $auth['error'];
+        $user = $auth['user'];
+
+        if ($user) {
+            return response()->json($user->articles);
+        } else {
+            return $response;
+        }
+
     }
 
     public function postArticles(Request $request)
     {
-        $user = AuthController::checkAuth();
-
-        $article = new Article;
-        $article->title = $request->get('title');
-        $article->text = $request->get('text');
-        $article->user_id = $user->id;
-        $article->save();
-        return response($article, 200);
+        $auth = AuthController::checkAuth();
+        $response = $auth['error'];
+        $user = $auth['user'];
+        //dump($request);
+        if ($user) {
+            $article = new Article;
+            $article->title = $request->get('title');
+            $article->text = $request->get('text');
+            $article->user_id = $user->id;
+            $article->save();
+            return response($article, 200);
+        } else {
+            return $response;
+        }
     }
 }

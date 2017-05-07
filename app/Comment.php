@@ -4,9 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed text
+ */
 class Comment extends Model
 {
-    //
+    protected $table = 'comments';
+    protected $fillable = [
+        'text', 'user_id', 'article_id'
+    ];
+
     public function article()
     {
         return $this->belongsTo("App\Article");

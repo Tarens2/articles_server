@@ -17,8 +17,7 @@ class CreateTableLikes extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->morphs('likeable_id');
-            $table->string('likeable_type');
+            $table->morphs('likeable');
 
             $table->integer('user_id')->unsigned()->nulable();
             $table->foreign('user_id')->references('id')->on('users');
