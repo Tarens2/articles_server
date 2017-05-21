@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Article;
 use App\Comment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,12 +15,17 @@ class CommentsController extends Controller
         $response = $auth['error'];
         $user = $auth['user'];
 
-        $comment = new Comment([
-            'text' => $request->text,
-            'article_id' => $article_id,
-            'user_id' => $user->id
-        ]);
-        $comment->save();
-        return response()->json($comment, 200);
+
+        if($user) {
+            $comment = new Comment([
+                'text' => $request->text,
+                'article_id' => $article_id,
+                'user_id' => $user->id
+            ]);
+            Article::find($article_id)->comments()->save($comment);
+            return response()->json(Article::all()->load('user', 'user')->load('comments','comments.user'), 200);
+        } else {
+            return $response;
+        }
     }
 }

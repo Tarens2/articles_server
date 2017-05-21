@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -40,7 +41,7 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
         // grab credentials from the request
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('login', 'password');
 
         try {
             // attempt to verify the credentials and create a token for the user
@@ -56,6 +57,7 @@ class AuthController extends Controller
         return response()->json(compact('token'));
     }
 
+
     public function getAuthenticatedUser()
     {
         $auth = AuthController::checkAuth();
@@ -67,5 +69,13 @@ class AuthController extends Controller
         } else {
             return $response;
         }
+    }
+
+    public function register(Request $request) {
+//        User::create([
+//            'name' => $request->name,
+//            'email' => $request->email,
+//            'password' => $request->password
+//        ]);
     }
 }

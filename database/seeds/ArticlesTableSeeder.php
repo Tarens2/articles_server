@@ -29,7 +29,13 @@ class ArticlesTableSeeder extends Seeder
             $article1,
             $article2
         ];
+        $new = array();
+
+        foreach ($articles as $k => $v) {
+            $new[$k] = clone $v;
+        }
 
         \App\User::find(1)->articles()->saveMany($articles);
+        \App\User::find(2)->articles()->saveMany($new);
     }
 }
