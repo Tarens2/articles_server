@@ -64,9 +64,9 @@ class ArticleController extends Controller
             $article = new Article;
             $article->title = $request->get('title');
             $article->text = $request->get('text');
-            $article->user()->save($user);
+            $article->user()->associate($user);
             $article->save();
-            return response($article, 200);
+            return response(Article::all(), 200);
         } else {
             return $response;
         }
