@@ -43,4 +43,8 @@ class Article extends Model
     public function comments() {
         return $this->hasMany('App\Comment');
     }
+    
+    public function warchers() {
+        return $this->hasMany('App\Watcher');
+    }
 }

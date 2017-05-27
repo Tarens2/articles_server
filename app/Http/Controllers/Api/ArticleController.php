@@ -66,7 +66,7 @@ class ArticleController extends Controller
             $article->text = $request->get('text');
             $article->user()->associate($user);
             $article->save();
-            return response(Article::all(), 200);
+            return response(Article::all()->load('user','user')->load('comments','comments.user'), 200);
         } else {
             return $response;
         }
