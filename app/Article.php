@@ -27,7 +27,7 @@ class Article extends Model
 {
 
     protected $fillable = [
-        'text', 'user_id', 'title'
+        'text', 'user_id', 'title', 'comments_count'
     ];
 
     public function user()

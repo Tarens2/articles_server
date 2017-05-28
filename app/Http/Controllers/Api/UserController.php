@@ -22,7 +22,6 @@ class UserController extends Controller
 
         if ($user) {
             return response()->json(User::find($user_id)->articles);
-//            return response()->json(User::find($user_id)->articles());
         } else {
             return $response;
         }

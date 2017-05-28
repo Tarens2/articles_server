@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Article;
 use App\Comment;
 use App\Http\Controllers\Controller;
+use DB;
 use Illuminate\Http\Request;
 
 class CommentsController extends Controller
@@ -22,8 +23,33 @@ class CommentsController extends Controller
                 'article_id' => $article_id,
                 'user_id' => $user->id
             ]);
-            Article::find($article_id)->comments()->save($comment);
-            return response()->json(Article::all()->load('user', 'user')->load('comments','comments.user'), 200);
+            $comment->save();
+            Article::find($article_id)->increment('comments_count');
+
+            return response()->json(DB::table('comments')
+                ->where('article_id', $article_id)
+                ->join('users', 'comments.user_id', '=', 'users.id')
+                ->select('comments.*', 'users.login')
+                ->get(), 200);
+        } else {
+            return $response;
+        }
+    }
+
+    public function getComments($article_id)
+    {
+        $auth = AuthController::checkAuth();
+        $response = $auth['error'];
+        $user = $auth['user'];
+
+
+        if($user) {
+            $comments = DB::table('comments')
+                ->where('article_id', $article_id)
+                ->join('users', 'comments.user_id', '=', 'users.id')
+                ->select('comments.*', 'users.login')
+                ->get();
+            return response()->json($comments, 200);
         } else {
             return $response;
         }

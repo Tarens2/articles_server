@@ -26,6 +26,10 @@ Route::get('auth/me','Api\AuthController@getAuthenticatedUser');
 
 Route::get('articles/me', 'Api\ArticleController@getUserArticles');
 Route::get('articles', 'Api\ArticleController@getAllArticles');
+Route::post('articles/{article_id}/watch', 'Api\WatcherController@setWatcher');
+Route::get('articles/{article_id}/watchers', 'Api\WatcherController@getWatchers');
+Route::get('articles/{article_id}/comments', 'Api\CommentsController@getComments');
+
 Route::post('article','Api\ArticleController@postArticles');
 
 Route::post('like/{likeable_id}', 'Api\LikesController@setLike');
