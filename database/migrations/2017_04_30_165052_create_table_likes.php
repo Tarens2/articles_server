@@ -21,6 +21,8 @@ class CreateTableLikes extends Migration
 
             $table->integer('user_id')->unsigned()->nulable();
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unique(['likeable_id', 'likeable_type', 'user_id']);
         });
     }
 
