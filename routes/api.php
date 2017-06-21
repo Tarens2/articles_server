@@ -20,7 +20,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('auth','Api\AuthController@authenticate');
-Route::get('auth/me','Api\AuthController@getAuthenticatedUser');
+Route::get('users/me','Api\AuthController@getAuthenticatedUser');
 
 Route::post('register', 'Api\AuthController@register');
 

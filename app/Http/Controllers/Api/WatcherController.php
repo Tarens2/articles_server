@@ -31,7 +31,7 @@ class WatcherController extends Controller
                 'user_id' => $user->id
             ]);
             $watcher->save();
-            return response("First view")->json(200);
+            return response()->json(["First view"], 200);
         } else {
             return $response;
         }

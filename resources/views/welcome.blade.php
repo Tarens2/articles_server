@@ -14,20 +14,9 @@
 
         <div class="content">
             <div class="title m-b-md">
-                Best site in the wordl
+                Rest Api server for Blog project
             </div>
-
-            {{--<div class="links">--}}
-                {{--<a href="https://laravel.com/docs">Documentation</a>--}}
-                {{--<a href="https://laracasts.com">Laracasts</a>--}}
-                {{--<a href="https://laravel-news.com">News</a>--}}
-                {{--<a href="https://forge.laravel.com">Forge</a>--}}
-                {{--<a href="https://github.com/laravel/laravel">GitHub</a>--}}
-            {{--</div>--}}
-
-            @foreach(\App\Article::all() as $article)
-                <p>{{ $article->text }}</p>
-            @endforeach
+            <p>Count articles in Data Base - \App\Article::all()->count() </p>
         </div>
     </div>
 @stop

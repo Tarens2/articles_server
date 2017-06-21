@@ -7,6 +7,7 @@ use App\Comment;
 use App\Like;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class LikesController extends Controller
 {
@@ -21,6 +22,7 @@ class LikesController extends Controller
                 'likeable_type' => Article::class,
                 'user_id' => $user->id
             ]);
+
             if($existed_like->count())
             {
                 $existed_like->delete();
@@ -51,16 +53,32 @@ class LikesController extends Controller
         $user = $auth['user'];
 
         if($user) {
-            $like = new Like();
-            $like->user_id = $user->id;
-            $like->likeable_id = $likeable_id;
-            $like->likeable_type = Comment::class;
-            $like->save();
-
+            $existed_like =Like::where([
+                'likeable_id' => $likeable_id,
+                'likeable_type' => Comment::class,
+                'user_id' => $user->id
+            ]);
             $comment = Comment::find($likeable_id);
-            $comment->increment('likes_count');
+            if($existed_like->count())
+            {
+                $existed_like->delete();
+                $comment->decrement('likes_count');
 
-            return response()->json(Article::find($comment->article->id)->comments);
+            }
+            else {
+                $like = new Like();
+                $like->user_id = $user->id;
+                $like->likeable_id = $likeable_id;
+                $like->likeable_type = Comment::class;
+                $like->save();
+                $comment->increment('likes_count');
+
+            }
+            return response()->json($comments = DB::table('comments')
+                ->where('article_id', $comment->article->id)
+                ->join('users', 'comments.user_id', '=', 'users.id')
+                ->select('comments.*', 'users.login')
+                ->get());
         }
         else {
             return $response;
