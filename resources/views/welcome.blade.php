@@ -16,7 +16,7 @@
             <div class="title m-b-md">
                 Rest Api server for Blog project
             </div>
-            <p>Count articles in Data Base - \App\Article::all()->count() </p>
+            <p>Count articles in Data Base - {{\App\Article::all()->count()}}</p>
         </div>
     </div>
 @stop
