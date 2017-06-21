@@ -13,7 +13,7 @@
         @endif
 
         <div class="content">
-            <div class="title m-b-md">
+            <div class="title m-b-md" style="font-size: 40px;">
                 Rest Api server for Blog project
             </div>
             <p>Count articles in Data Base - {{\App\Article::all()->count()}}</p>
