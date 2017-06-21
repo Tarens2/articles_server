@@ -14,7 +14,7 @@
 use App\Article;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('react');
 });
 
 Route::get('/qwe', function () {
